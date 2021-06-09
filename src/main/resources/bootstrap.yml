@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: midpuri
+  cloud:
+    config:
+      enabled: ${SPRING_CONFIG_ENABLED:false}
+      failFast: true
+encrypt:
+  failOnError: true
+server:
+  port: 8080
+  servlet:
+    contextPath: /midpuri
+management:
+  server:
+    port: 8081
+    servlet:
+      contextPath: /midpuri-mgmt

@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.ws.Binding;
 import javax.xml.ws.BindingProvider;
-import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.MessageContext;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MidpuriRestEndpoint {
@@ -34,12 +36,9 @@ public class MidpuriRestEndpoint {
         final QueryMIDP queryMIDPEndPoint = queryMIDPService.getQueryMIDPSoap12();
         final BindingProvider bindingProvider = (BindingProvider) queryMIDPEndPoint;
         bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, soapEndPoint);
-        final Binding binding = bindingProvider.getBinding();
-        final List<Handler> handlerChain = binding.getHandlerChain();
-        final CustomSOAPHandler customSOAPHandler = new CustomSOAPHandler();
-        customSOAPHandler.setUserDetails(soapAuth);
-        handlerChain.add(customSOAPHandler);
-        binding.setHandlerChain(handlerChain);
+        Map<String, List<String>> headers = new HashMap<>();
+        headers.put("Authorization", Arrays.asList(soapAuth));
+        bindingProvider.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS,headers);
 
         APLCTIONREQ aplctionrequest = new APLCTIONREQ();
         //create builder for APLCTIONREQ Object

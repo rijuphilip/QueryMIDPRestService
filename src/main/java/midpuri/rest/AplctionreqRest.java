@@ -1,4 +1,4 @@
-package midpuri.soap;
+package midpuri.rest;
 
 import java.math.BigDecimal;
 import javax.xml.bind.JAXBElement;
